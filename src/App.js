@@ -11,7 +11,7 @@ function Square({ value, onSquareClick }) {
 
 function Board({ xIsNext, squares, onPlay }) {
   function handleClick(i) {
-    if (squares[i] || calculateWinner(squares)) return;
+    if (squares[i] || calculateWinner(squares)?.square) return;
 
     const nextSquares = squares.slice();
 
@@ -23,12 +23,15 @@ function Board({ xIsNext, squares, onPlay }) {
     onPlay(nextSquares);
   }
 
-  const winner = calculateWinner(squares);
+  const winner = calculateWinner(squares)?.square;
   let status;
   if (winner) {
-    status = `winner: ${winner}`;
+    status = `Winner: ${winner}`;
   } else {
-    status = `next player: ${xIsNext ? "X" : "O"}`;
+    status =
+      squares.filter((item) => item).length === 9
+        ? "It's a draw"
+        : `Next player: ${xIsNext ? "X" : "O"}`;
   }
 
   const boardArray = [
