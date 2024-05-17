@@ -1,26 +1,21 @@
 import { useState } from "react";
+import FormTodo from "./components/FormTodo";
+import TodoList from "./components/TodoList";
 
 export default function App() {
-  const [newItem, setNewItem] = useState("");
   const [todoList, setTodoList] = useState([]);
 
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    if (!e.target.value) return;
-
+  function addTodo(title) {
     setTodoList((current) => {
       return [
         ...current,
         {
           id: crypto.randomUUID(),
-          title: newItem,
+          title,
           completed: false,
         },
       ];
     });
-
-    setNewItem("");
   }
 
   function toggleTodo(id, completed) {
@@ -40,38 +35,13 @@ export default function App() {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="item">Add Item</label>
-        <input
-          type="text"
-          id="item"
-          value={newItem}
-          onChange={(e) => setNewItem(e.target.value)}
-        ></input>
-        <button>Add</button>
-      </form>
-
+      <FormTodo addTodo={addTodo}></FormTodo>
       <h1>Todo List</h1>
-
-      {todoList.length === 0 && <div>no todo list</div>}
-
-      <ul>
-        {todoList.map((todo) => {
-          return (
-            <li key={todo.id}>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={todo.completed}
-                  onChange={(e) => toggleTodo(todo.id, e.target.value)}
-                />
-                {todo.title}
-              </label>
-              <button onClick={() => deleteTodo(todo.id)}>Delete</button>
-            </li>
-          );
-        })}
-      </ul>
+      <TodoList
+        todoList={todoList}
+        toggleTodo={toggleTodo}
+        deleteTodo={deleteTodo}
+      ></TodoList>
     </>
   );
 }
