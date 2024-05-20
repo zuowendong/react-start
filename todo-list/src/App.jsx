@@ -1,9 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormTodo from "./components/FormTodo";
 import TodoList from "./components/TodoList";
 
 export default function App() {
-  const [todoList, setTodoList] = useState([]);
+  const [todoList, setTodoList] = useState(() => {
+    const localTodoList = localStorage.getItem("todoList");
+    return localTodoList ? JSON.parse(localTodoList) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("todoList", JSON.stringify(todoList));
+  }, [todoList]);
 
   function addTodo(title) {
     setTodoList((current) => {
