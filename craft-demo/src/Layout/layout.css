@@ -1,0 +1,25 @@
+.layout {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 200px auto 200px;
+  grid-template-rows: 60px auto;
+}
+
+.header {
+  grid-area: 1 / 1 / 2 / 4;
+}
+
+.editor-group {
+}
+
+.left-menu {
+  height: 100%;
+}
+
+.editor {
+  height: 100%;
+}
+
+.right-menu {
+  height: 100%;
+}
